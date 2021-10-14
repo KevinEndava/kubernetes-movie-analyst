@@ -1,34 +1,38 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx-svc
+  name: front-service
   labels:
-    app: nginx
+    app: front
 spec:
-  type: LoadBalancer
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 3030
+    targetport: 3030
+    nodePort: 32132
+
   selector:
-    app: nginx
+    app: front
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx
+  name: front-deployment
   labels:
-    app: nginx
+    app: front
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: front
   template:
     metadata:
       labels:
-        app: nginx
+        app: front
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.14.2
+      - name: front
+        image: gcr.io/rampup21/movie-analyst-ui:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3030
+          protocol: TCP 
