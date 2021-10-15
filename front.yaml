@@ -5,14 +5,14 @@ metadata:
   labels:
     app: front
 spec:
+  selector:
+    app: front
+  type: NodePort
   ports:
   - protocol: TCP
     port: 3030
-    targetport: 3030
+    targetPort: 3030
     nodePort: 32132
-
-  selector:
-    app: front
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,4 +35,4 @@ spec:
         image: gcr.io/rampup21/movie-analyst-ui:latest
         ports:
         - containerPort: 3030
-          protocol: TCP 
+          protocol: TCP
